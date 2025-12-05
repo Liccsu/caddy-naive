@@ -3,10 +3,10 @@ FROM caddy:builder AS builder
 
 # 2. 集成 klzgrad/forwardproxy 插件 (防探测版本)
 RUN xcaddy build \
-    --with github.com/caddyserver/forward_proxy@caddy2=github.com/klzgrad/forwardproxy@caddy2
+    --with github.com/caddyserver/forward_proxy=github.com/klzgrad/forwardproxy@caddy2
 
 # 3. 产出最终镜像
 FROM caddy:latest
 
-# 将编译好的 caddy 覆盖过去
+# 4. 将编译好的 caddy 覆盖过去
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
