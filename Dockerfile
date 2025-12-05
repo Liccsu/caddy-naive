@@ -3,7 +3,7 @@ FROM caddy:builder AS builder
 
 # 2. 集成 klzgrad/forwardproxy 插件 (防探测版本)
 RUN xcaddy build \
-    --with github.com/caddyserver/forwardproxy=github.com/klzgrad/forwardproxy@caddy2
+    --with github.com/caddyserver/forwardproxy=github.com/klzgrad/forwardproxy@caddy2 \
     --output /usr/bin/caddy
 
 # 3. 产出最终镜像
