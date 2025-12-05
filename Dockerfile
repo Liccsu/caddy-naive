@@ -5,7 +5,7 @@ FROM caddy:2.7.6-builder AS builder
 # 注意：不再用 latest，而是基于当前基础镜像编译
 # 输出到 /usr/bin/caddy
 RUN xcaddy build \
-    --with github.com/caddyserver/forwardproxy=github.com/klzgrad/forwardproxy@caddy2 \
+    --with github.com/caddyserver/forwardproxy \
     --output /usr/bin/caddy
 
 # 3. 运行环境也必须必须是 v2.7.6
