@@ -1,11 +1,15 @@
-# 第一阶段：构建
-FROM caddy:builder AS builder
+# 1. 使用 v2.7.6 的构建环境（这个版本最稳）
+FROM caddy:2.7.6-builder AS builder
 
-# 关键：编译并输出到一个独一无二的文件名 /caddy_custom
-RUN xcaddy build --with github.com/caddyserver/forwardproxy=github.com/klzgrad/forwardproxy@caddy2 --output /caddy_custom
+# 2. 编译
+# 注意：不再用 latest，而是基于当前基础镜像编译
+# 输出到 /usr/bin/caddy
+RUN xcaddy build \
+    --with github.com/caddyserver/forwardproxy=github.com/klzgrad/forwardproxy@caddy2 \
+    --output /usr/bin/caddy
 
-# 第二阶段：运行
-FROM caddy:latest
+# 3. 运行环境也必须必须是 v2.7.6
+FROM caddy:2.7.6
 
-# 关键：从上个阶段把那个独一无二的文件复制过来，覆盖掉系统原本的 caddy
-COPY --from=builder /caddy_custom /usr/bin/caddy
+# 4. 复制编译好的程序
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy
